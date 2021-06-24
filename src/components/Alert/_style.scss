@@ -1,0 +1,25 @@
+.alert{
+    display: block;
+    .alertTitle{
+        font-size: $font-size-base;
+        font-weight: $font-weight-bold;
+    }
+    @include alert-size($font-size-sm, $btn-padding-x-lg, $btn-padding-y-lg, $btn-padding-x-lg);
+}
+
+.alert-success{
+    @include alert-style($green, $white)
+}
+.alert-default{
+    @include alert-style($blue, $white)
+}
+.alert-danger{
+    @include alert-style($red, $white)
+}
+.alert-warning{
+    @include alert-style($yellow, $white)
+}
+
+.alert-display{
+    display: none;
+}
