@@ -2,7 +2,8 @@ import React from 'react';
 // import './App.css';
 import Button, { ButtonType, ButtonSize} from './components/Button/button';
 // import Alert, { AlertType } from './components/Alert/alert';
-
+import Menu  from './components/Menu/menu';
+import MenuItem from './components/Menu/menuItem';
 function App() {
   // var flag = false;
   // const closeAlert = () =>{
@@ -13,7 +14,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Button 
+        <Menu defaultIndex={0} onSelect={(index)=>{alert(index)}}>
+          <MenuItem index={0}>1</MenuItem>
+          <MenuItem index={1} disabled>2</MenuItem>
+          <MenuItem index={2}>3</MenuItem>
+        </Menu>
+        {/* <Button 
           onClick={(e)=>{e.preventDefault();console.log('111')}}
           btnType={ButtonType.Default} 
           size={ButtonSize.Large}
@@ -42,7 +48,7 @@ function App() {
           disabled={true}
         >
           Disabled
-        </Button>
+        </Button> */}
         {/* <Alert 
           type={AlertType.Waring}
           title="提示标题"
