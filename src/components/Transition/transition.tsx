@@ -9,11 +9,13 @@ export type AnimationName = 'zoom-in-top' | 'zoom-in-left' | 'zoom-in-bottom' | 
 
 type TransitionProps = CSSTransitionProps & {
     animation?: AnimationName,
+    wrapper?: boolean
 }
 
 
 const Transition: React.FC<TransitionProps> = (props) => {
     const {
+        wrapper,
         children, 
         classNames,
         animation,
@@ -24,7 +26,8 @@ const Transition: React.FC<TransitionProps> = (props) => {
             classNames={classNames ?  classNames : animation}
             {...restProps}
         >
-            {children}
+            {/* {children} */}
+            {wrapper ? <div>{children}</div> : children}
         </CSSTransition>
     );
 }

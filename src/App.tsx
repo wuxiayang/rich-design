@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 // import './App.css';
+import Transition from './components/Transition/transition';
 import Button, { ButtonType, ButtonSize} from './components/Button/button';
 // import Alert, { AlertType } from './components/Alert/alert';
 import Menu  from './components/Menu/menu';
@@ -13,18 +14,18 @@ import Icon from './components/Icon/icon';
 
 library.add(fas);//添加所有的图标
 
-function App() {
+const App: React.FC = () => {
   // var flag = false;
   // const closeAlert = () =>{
   //   flag = true;
   //   console.log('回调传递');
   // }
   // console.log('flag',flag);
+  const [ show, setShow ] = useState(false);
   return (
     <div className="App">
       <header className="App-header">
-      <Icon icon="arrow-down" theme="primary" size="10x" />
-      {/* <FontAwesomeIcon icon={faCoffee} size="lg"/> */}
+        <Icon icon="arrow-down" theme="primary" size="10x" />
         <Menu 
           defaultIndex={'0'} 
           onSelect={(index)=>{alert(index)}} 
@@ -40,6 +41,26 @@ function App() {
           </SubMenu>
           <MenuItem>3</MenuItem>
         </Menu>
+        <Button
+          size='lg'
+          onClick={()=> setShow(!show)}
+        >
+          按钮
+        </Button>
+        <Transition
+          in={show}
+          timeout={300}
+          animation="zoom-in-left"
+          wrapper
+        >
+          <div>
+            <p>1</p>
+            <p>1</p>
+            <p>1</p>
+            <p>1</p>
+            <p>1</p>
+          </div>
+        </Transition>
         {/* <Button 
           onClick={(e)=>{e.preventDefault();console.log('111')}}
           btnType={ButtonType.Default} 
