@@ -1,9 +1,18 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
 // import './App.css';
 import Button, { ButtonType, ButtonSize} from './components/Button/button';
 // import Alert, { AlertType } from './components/Alert/alert';
 import Menu  from './components/Menu/menu';
 import MenuItem from './components/Menu/menuItem';
+import SubMenu from './components/Menu/subMenu';
+import Icon from './components/Icon/icon';
+
+library.add(fas);//添加所有的图标
+
 function App() {
   // var flag = false;
   // const closeAlert = () =>{
@@ -14,10 +23,22 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Menu defaultIndex={0} onSelect={(index)=>{alert(index)}}>
-          <MenuItem index={0}>1</MenuItem>
-          <MenuItem index={1} disabled>2</MenuItem>
-          <MenuItem index={2}>3</MenuItem>
+      <Icon icon="arrow-down" theme="primary" size="10x" />
+      {/* <FontAwesomeIcon icon={faCoffee} size="lg"/> */}
+        <Menu 
+          defaultIndex={'0'} 
+          onSelect={(index)=>{alert(index)}} 
+          mode='horizontal'
+          defaultOpenSubMenus={['2']}
+        >
+          <MenuItem>1</MenuItem>
+          <MenuItem disabled>2</MenuItem>
+          <SubMenu title="dropdown">
+            <MenuItem>1-1</MenuItem>
+            <MenuItem>1-1</MenuItem>
+            <MenuItem>1-1</MenuItem>
+          </SubMenu>
+          <MenuItem>3</MenuItem>
         </Menu>
         {/* <Button 
           onClick={(e)=>{e.preventDefault();console.log('111')}}
