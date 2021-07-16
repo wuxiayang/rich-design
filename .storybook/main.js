@@ -1,17 +1,35 @@
-const custom = require('./webpack.config.js');
-
+// const path = require('path');
 module.exports = {
-  webpackFinal: (config) => {
-    console.log('config: ', config);
-    return { ...config, module: { ...config.module, rules: custom.module.rules } };
-  },
   "stories": [
-    "../src/**/*.stories.mdx",
-    "../src/**/*.stories.@(js|jsx|ts|tsx)"
+    // "../src/**/*.stories.mdx",
+    "../src/styles/index.scss",
+    "../src/**/*.stories.@(ts|tsx)"
   ],
-  "addons": [
+  "addons": [   
+    "@storybook/addon-actions/register",
+    "@storybook/addon-links/register",
+    "@storybook/addon-actions",
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/preset-create-react-app"
-  ]
+    "@storybook/preset-create-react-app",
+    // "./addons.tsx"
+    // path.resolve("./addons.tsx")
+  ],
+  webpackFinal: async (config, { configType }) => { 
+    config.module.rules.push({
+      test: /\.tsx?$/,
+      use: [
+        {
+          loader: require.resolve("babel-loader"),
+          options: {
+            presets: [require.resolve("babel-preset-react-app")]
+          }
+        },
+        require.resolve("react-docgen-typescript-loader")
+      ]
+    });
+  
+    config.resolve.extensions.push(".ts", ".tsx");
+    return config;
+  }
 }
