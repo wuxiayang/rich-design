@@ -1,15 +1,22 @@
+// const path = require('path');
 module.exports = {
   "stories": [
-    "../src/**/*.stories.mdx",
+    // "../src/**/*.stories.mdx",
+    "../src/styles/index.scss",
     "../src/**/*.stories.@(ts|tsx)"
   ],
-  "addons": [
+  "addons": [   
+    "@storybook/addon-actions/register",
+    "@storybook/addon-links/register",
+    "@storybook/addon-actions",
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/preset-create-react-app"
+    "@storybook/preset-create-react-app",
+    // "./addons.tsx"
+    // path.resolve("./addons.tsx")
   ],
-  webpackFinal: async (config) => {
-   config.module.rules.push({
+  webpackFinal: async (config, { configType }) => { 
+    config.module.rules.push({
       test: /\.tsx?$/,
       use: [
         {
@@ -23,7 +30,6 @@ module.exports = {
     });
   
     config.resolve.extensions.push(".ts", ".tsx");
-  
     return config;
   }
 }
