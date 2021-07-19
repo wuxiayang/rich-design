@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, { ButtonHTMLAttributes, AnchorHTMLAttributes, FC }  from 'react';
 import classNames from 'classnames';
 
 // export enum ButtonSize {
@@ -27,12 +27,12 @@ interface BaseButtonProps {
 //联合类型： 多个类型的或关系
 
 // 交叉类型   &
-type NativeButtonProps =BaseButtonProps & React.ButtonHTMLAttributes<HTMLElement>;
-type AnchorButtonProps =BaseButtonProps & React.AnchorHTMLAttributes<HTMLElement>;
+type NativeButtonProps =BaseButtonProps & ButtonHTMLAttributes<HTMLElement>;
+type AnchorButtonProps =BaseButtonProps & AnchorHTMLAttributes<HTMLElement>;
 //存在问题：Button的必用属性不适用于a标签，反之亦然，所以需要设置为可选
 export type ButtonProps =Partial<NativeButtonProps & AnchorButtonProps>;
 
-const Button: React.FC<ButtonProps> = (props) =>{
+export const Button: FC<ButtonProps> = (props) =>{
     const { 
         btnType, 
         className,

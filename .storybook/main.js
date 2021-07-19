@@ -6,6 +6,16 @@ module.exports = {
     "../src/**/*.stories.@(ts|tsx)"
   ],
   "addons": [   
+    // "@storybook/addon-docs",
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        configureJSX: true,
+        babelOptions: {},
+        sourceLoaderOptions: null,
+        transcludeMarkdown: true,
+      },
+    },
     "@storybook/addon-actions/register",
     "@storybook/addon-links/register",
     "@storybook/addon-actions",
@@ -25,7 +35,9 @@ module.exports = {
             presets: [require.resolve("babel-preset-react-app")]
           }
         },
-        require.resolve("react-docgen-typescript-loader")
+        // {
+        //   loader: require.resolve("react-docgen-typescript-loader"),
+        // }
       ]
     });
   
