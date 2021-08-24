@@ -158,10 +158,21 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
 
     const generateDropdown = () => {
         return (
-            <ul>
+            /* Transition添加动画效果 */
+            <Transition
+                in={showDropdown || loading}
+                animation="zoom-in-top"
+                timeout={300}
+                onExited={() => {setSuggestions([])}}
+            >
+            <ul className="rich-suggestion-list">
+                { loading && <ul className="suggstions-loading-icon">
+                    <Icon icon="spinner" spin/>
+                </ul>
+                }
                 { suggestions.map((item, index)=> {
                     const cnames = classNames('suggestion-item', {
-                        'item-highlighted': index === highlightIndex
+                        'is-active': index === highlightIndex
                     })
                     return(
                         <li 
@@ -175,26 +186,20 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
                     )
                 })}
             </ul>
+        </Transition>
         )
     }
     return (
-        /* Transition添加动画效果 */
-        <Transition
-            in={showDropdown || loading}
-            animation="zoom-in-top"
-            timeout={300}
-            onExited={() => {setSuggestions([])}}
-        >
-            <div className="rich-auto-complete" ref={componentRef}>
-                <Input 
-                    value={inputValue}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    {...restProps}
-                />
-                { loading && <ul><Icon icon="spinner" spin/></ul>}
-                {(suggestions.length > 0) && generateDropdown() }
-            </div>
-        </Transition>
+        <div className="rich-auto-complete" ref={componentRef}>
+            <Input 
+                value={inputValue}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                {...restProps}
+            />
+           {generateDropdown()}
+            {/* {(suggestions.length > 0) && generateDropdown() } */}
+        </div>
+        
     )
 }
