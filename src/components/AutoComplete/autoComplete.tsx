@@ -20,11 +20,13 @@
 // export default AutoComplete;
 
 
-import React, { FC, useState, ChangeEvent, ReactElement, useEffect, KeyboardEvent } from "react";
+import React, { FC, useState, useRef, ChangeEvent, ReactElement, useEffect, KeyboardEvent } from "react";
 import classNames from "classnames";
 import Input, { InputProps } from "../Input/input";
 import Icon from '../Icon/icon';
+import Transition from '../Transition/transition';
 import useDebounce from '../../hooks/useDebounce';
+import useClickOutside from '../../hooks/useClickOutside';
 
 interface DataSourceObject {
     value: string;
@@ -50,11 +52,17 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     } = props;
     const [ inputValue, setInputValue ] = useState(value as string);
     const [ suggestions, setSuggestions ] = useState<DataSourceType[]>([]);
+    const [ showDropdown, setShowDropdown] = useState(false)
     const [ loading, setLoading ] = useState(false);
     const [ highlightIndex, setHighlightIndex ] = useState(-1);
+    const triggerSearch = useRef(false);
+    const componentRef = useRef<HTMLDivElement>(null);
     const debounceValue = useDebounce(inputValue, 500);
+    useClickOutside( componentRef, ()=>{
+        setSuggestions([])
+    })
     useEffect(()=>{
-        if(debounceValue){
+        if(debounceValue && triggerSearch.current){
             const results = fetchSuggestions(debounceValue);
             if(results instanceof Promise){
                 console.log('results-triggered', results);
@@ -62,12 +70,20 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
                 results.then(data => {
                     setLoading(false);
                     setSuggestions(data);
+                    if (data.length > 0) {
+                        setShowDropdown(true)
+                      }
                 })
             } else {
                 setSuggestions(results);
+                setShowDropdown(true)
+                if (results.length > 0) {
+                  setShowDropdown(true)
+                } 
             }
         } else {
-            setSuggestions([]);
+            setShowDropdown(false)
+            // setSuggestions([]);
         }
         setHighlightIndex(-1)
     }, [debounceValue]);
@@ -97,7 +113,8 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
                 highlight(highlightIndex +1)
                 break;
             case 'Backspace'://删除
-                setSuggestions([])
+                // setSuggestions([])
+                setShowDropdown(false)
                 break;
             default:
                 break;
@@ -107,6 +124,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.trim();
         setInputValue(value);
+        triggerSearch.current = true;
         // if(value){
         //     const results = fetchSuggestions(value);
         //     if(results instanceof Promise){
@@ -126,10 +144,12 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
 
     const handleSelect = (item: DataSourceType) => {
         setInputValue(item.value);
-        setSuggestions([]);
+        // setSuggestions([]);
+        setShowDropdown(false)
         if(onSelect) {
             onSelect(item);
         }
+        triggerSearch.current = false;
     }
 
     const renderTemplate = (item: DataSourceType) => {
@@ -158,15 +178,23 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         )
     }
     return (
-        <div className="rich-auto-complete">
-            <Input 
-                value={inputValue}
-                onChange={handleChange}
-                onKeyDown={handleKeyDown}
-                {...restProps}
-            />
-            { loading && <ul><Icon icon="spinner" spin/></ul>}
-            {(suggestions.length > 0) && generateDropdown() }
-        </div>
+        /* Transition添加动画效果 */
+        <Transition
+            in={showDropdown || loading}
+            animation="zoom-in-top"
+            timeout={300}
+            onExited={() => {setSuggestions([])}}
+        >
+            <div className="rich-auto-complete" ref={componentRef}>
+                <Input 
+                    value={inputValue}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                    {...restProps}
+                />
+                { loading && <ul><Icon icon="spinner" spin/></ul>}
+                {(suggestions.length > 0) && generateDropdown() }
+            </div>
+        </Transition>
     )
 }
