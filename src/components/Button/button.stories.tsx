@@ -1,7 +1,7 @@
 import React from 'react';
-import { storiesOf, addDecorator } from '@storybook/react';
+import { storiesOf, addDecorator, addParameters } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { withInfo } from '@storybook/addon-info';
+import withInfo  from '@storybook/addon-info';
 import Button from './button';
 
 // //Decorator
@@ -34,6 +34,18 @@ const buttonWithType = () => (
 storiesOf('Button Component', module)
 //   .addDecorator(CenterDecorator)
 //   .addDecorator(withInfo)
+  .addParameters({
+    info: {
+        text: `
+        this is a very nice component
+        ## this is  a  header
+        ~~~js
+        const a = 10;
+        ~~~
+        `,
+        inline: true
+    }
+  })
   .add('默认Button', defaultButton)
-  .add('不同尺寸的Button', buttonWithSize)
+  .add('不同尺寸的Button', buttonWithSize, {info: { inline: false}})
   .add('不同类型的Button', buttonWithType)
