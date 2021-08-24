@@ -6,6 +6,16 @@ module.exports = {
     "../src/**/*.stories.@(ts|tsx)"
   ],
   "addons": [   
+    // "@storybook/addon-docs",
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        configureJSX: true,
+        babelOptions: {},
+        sourceLoaderOptions: null,
+        transcludeMarkdown: true,
+      },
+    },
     "@storybook/addon-actions/register",
     "@storybook/addon-links/register",
     "@storybook/addon-actions",
@@ -25,18 +35,9 @@ module.exports = {
             presets: [require.resolve("babel-preset-react-app")]
           }
         },
-        {
-          loader: require.resolve("react-docgen-typescript-loader"),
-          options: {
-            shouldExtractLiteralValuesFromEnum: true,
-            propFilter: (prop) => {
-              if (prop.parent) {
-                return !prop.parent.fileName.includes('node_modules')
-              }
-              return true            
-            }
-          }
-        }
+        // {
+        //   loader: require.resolve("react-docgen-typescript-loader"),
+        // }
       ]
     });
   

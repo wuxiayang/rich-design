@@ -1,15 +1,10 @@
 import React from 'react';
-import { storiesOf, addDecorator, addParameters } from '@storybook/react';
+import { storiesOf  } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import withInfo  from '@storybook/addon-info';
+import { withInfo } from '@storybook/addon-info';
+import { DocsPage, DocsContainer } from '@storybook/addon-docs';
 import Button from './button';
-
-// //Decorator
-// const styles: React.CSSProperties = {
-//     textAlign: 'center'
-// }
-// const CenterDecorator = (storyFn: any) => <div style={styles}>{storyFn()}</div>
-
+// import { PropsTable } from '../..comStories/propsTable/propstable';
 
 
 const defaultButton = () => (
@@ -31,21 +26,28 @@ const buttonWithType = () => (
     </>
 )
 
-storiesOf('Button Component', module)
-//   .addDecorator(CenterDecorator)
-//   .addDecorator(withInfo)
-  .addParameters({
-    info: {
-        text: `
-        this is a very nice component
-        ## this is  a  header
-        ~~~js
-        const a = 10;
-        ~~~
-        `,
-        inline: true
+const propDefinitions = [
+    {
+        property: 'routes',
+        propType: 'array',
+        required: true,
+        description: 'router的路由栈信息',
+        defaultValue: 'routes[]'
+    }, {
+        property: 'style',
+        propType: 'object',
+        required: false,
+        description: '面包屑组件样式',
+        defaultValue: '--'
     }
-  })
-  .add('默认Button', defaultButton)
-  .add('不同尺寸的Button', buttonWithSize, {info: { inline: false}})
-  .add('不同类型的Button', buttonWithType)
+]
+
+storiesOf('Button Component', module)
+    .add('默认Button', defaultButton)
+    .add('不同尺寸的Button', buttonWithSize, {
+        info: {
+            inline: false,
+            // TableComponent: ()=> PropsTable({propDefinitions})
+        }
+    })
+    .add('不同类型的Button', buttonWithType)
