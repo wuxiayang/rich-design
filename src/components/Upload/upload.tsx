@@ -1,7 +1,8 @@
-import React, { ChangeEvent, FC, useRef, useState } from "react";
+import React, { ChangeEvent, Children, FC, useRef, useState } from "react";
 import axios from "axios";
 import UploadList from "./uploadList";
-import Button from "../Button/button";
+// import Button from "../Button/button";
+import Dragger from "./dragger";
 
 export type UploadFileStatus = 'ready' | 'uploading' | 'success' | 'error';
 
@@ -33,6 +34,7 @@ export interface UploadProps {
     withCredentials?: boolean;
     accept?: string;
     multiple?: boolean;
+    drag?: boolean;
 }
 
 export const Upload: FC<UploadProps> = (props) => {
@@ -51,6 +53,8 @@ export const Upload: FC<UploadProps> = (props) => {
         withCredentials,
         accept,
         multiple,
+        children,
+        drag,
     } = props;
     const fileInput = useRef<HTMLInputElement>(null);
     const [ fileList, setFileList ] = useState<UploadFile[]>(defaultFileList || []);
@@ -170,12 +174,28 @@ export const Upload: FC<UploadProps> = (props) => {
         <div
             className="rich-upload-component"
         >
-            <Button 
+            {/* <Button 
                 btnType="primary"
                 onClick={handleClick}
             >
                 Upload File
-            </Button>
+            </Button> */}
+            {/* 拖动上传改造 */}
+            <div 
+                className="rich-upload-input"
+                style={{display: 'inline-block'}}
+                onClick={handleClick}
+            >
+                {
+                    drag ? 
+                    <Dragger
+                        onFile={(files)=> {uploadFiles(files)}}
+                    >
+                        { children}
+                    </Dragger> :
+                    children
+                }
+            </div>
             <input
                 className="rich-file-input"
                 style={{display: 'none'}}

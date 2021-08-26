@@ -2,6 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from '@storybook/addon-actions';
 import { Upload, UploadFile } from "./upload";
+import Icon from "../Icon/icon";
 
 // const defaultFileList: UploadFile[] = [
 //   { uid: '123', size: 1234, name: 'hello.md', status: 'uploading', percent: 30 },
@@ -36,11 +37,16 @@ const SimpleUpload = () => {
             headers={{'X-Powered-By': 'rich'}}
             accept=".docx"
             multiple={true}
+            drag
             // beforeUpload={filePromise}
             // onProgress={action('progress')}
             // onSuccess={action('success')}
             // onError={action('error')}
-        />
+        >
+            <Icon icon="upload" size="5x" theme="secondary" />
+            <br/>
+            <p>Drag file over to upload</p>
+        </Upload>
     )
 }
 
