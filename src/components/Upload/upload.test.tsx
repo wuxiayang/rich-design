@@ -1,11 +1,12 @@
-import { render, RenderResult, fireEvent, waitFor } from '@testing-library/react';
+import { render, RenderResult, fireEvent, waitFor, createEvent } from '@testing-library/react';
 import { Upload, UploadProps } from './upload';
 import axios from 'axios';
+import { file } from '@babel/types';
 
 
 jest.mock('../Icon/icon', () => {
-    return ({icon}) => {
-        return <span>{icon}</span>
+    return ({icon, onClick}) => {
+        return <span onClick={onClick}>{icon}</span>
     }
 });
 jest.mock('axios');
@@ -17,7 +18,9 @@ const mockedAxios = axios as jest.Mocked<typeof axios>
 const testProps: UploadProps = { 
     action: 'fakeurl.com',
     onSuccess: jest.fn(),
-    onChange: jest.fn()
+    onChange: jest.fn(),
+    onRemove: jest.fn(),
+    drag: true
 }
 
 const testFile = new File(['xyz'], 'test.png', { type: 'image/png'});
@@ -46,5 +49,39 @@ describe('test upload component', ()=> {
         expect(testProps.onSuccess).toHaveBeenCalledWith('cool', testFile);
         expect(testProps.onChange).toHaveBeenCalledWith(testFile);
 
+        // remove the upload file
+        expect(queryByText('times')).toBeInTheDocument();
+        fireEvent.click(queryByText('times') as HTMLElement);
+        expect(queryByText('test.png')).not.toBeInTheDocument();
+        expect(testProps.onRemove).toHaveBeenCalledWith(
+            expect.objectContaining({
+                raw: testFile,
+                status: 'success',
+                name: 'test.png'
+            })
+        );
+    })
+
+    it('drag and drop files should works fine', async ()=>{
+        fireEvent.dragOver(uploadArea)
+        expect(uploadArea).toHaveClass('is-dragover')
+        fireEvent.dragLeave(uploadArea)
+        expect(uploadArea).not.toHaveClass('is-dragover')
+        // 实现拖拽属性的数据传递
+        const mockDropEvent = createEvent.drop(uploadArea)
+        Object.defineProperty(mockDropEvent, "dataTransfer", {
+          value: {
+            files: [testFile]
+          }
+        })
+
+
+        // fireEvent.drop(uploadArea, {
+        //     dataTransfer: { files: [testFile]}
+        // })
+        fireEvent.drop(uploadArea, mockDropEvent);
+        await waitFor(()=>{
+            expect(wrapper.queryByText('test.png')).toBeInTheDocument();
+        });
     })
 })
