@@ -1,7 +1,6 @@
 import { render, RenderResult, fireEvent, waitFor, createEvent } from '@testing-library/react';
 import { Upload, UploadProps } from './upload';
 import axios from 'axios';
-import { file } from '@babel/types';
 
 
 jest.mock('../Icon/icon', () => {
