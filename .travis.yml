@@ -14,5 +14,7 @@ deploy:
   github_token: $github_token
   local_dir: storybook-static
   on:
-    branch: master
+    branch: test-travis
   
+
+  # github_token  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
