@@ -1,19 +1,19 @@
 language: node_js
-node_js:
+node_js: 
   - "stable"
-cache:
+cache: 
   directories:
   - node_modules
-env:
+env: 
   - CI=true
-script:
+script: 
   - npm run build-storybook
-deploy:
+deploy: 
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   local_dir: storybook-static
-  on:
+  on: 
     branch: test-travis
   
   #travis密钥
