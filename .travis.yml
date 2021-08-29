@@ -17,4 +17,4 @@ deploy:
     branch: test-travis
   
   #travis密钥
-  # github_token  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
+  # github_token  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
