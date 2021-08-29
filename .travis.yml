@@ -15,6 +15,3 @@ deploy:
   local_dir: storybook-static
   on: 
     branch: test-travis
-  
-  #travis密钥
-  # github_token  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
