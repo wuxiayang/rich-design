@@ -1,23 +1,23 @@
 language: node_js
-node_js:
+node_js: 
   - "stable"
-cache:
+cache: 
   directories:
   - node_modules
-env:
+env: 
   - CI=true
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
-script:
+script: 
   - npm run build-storybook
-deploy:
+deploy: 
   provider: pages
   skip_cleanup: true
-  github_token: $github_token
+  github_token: $GITHUB_TOKEN
   local_dir: storybook-static
-  on:
+  on: 
     branch: test-travis
 
 
