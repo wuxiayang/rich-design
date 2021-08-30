@@ -3,9 +3,11 @@ node_js:
   - "stable"
 cache: 
   directories:
+before_install:
+  - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
   - node_modules
-env: 
-  - CI=true
+# env: 
+#   - CI=true
 script: 
   - npm run build-storybook
 deploy: 
