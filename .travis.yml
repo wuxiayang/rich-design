@@ -11,7 +11,7 @@ script:
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: $github_token #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
+  github_token: $github_token #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
   local_dir: storybook-static
   on:
     branch: master
