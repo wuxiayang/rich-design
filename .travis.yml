@@ -9,7 +9,7 @@ before_install:
 # env: 
 #   - CI=true
 script: 
-  - npm run build-storybook
+  - npm run build-storybook:test-travis
 deploy: 
   provider: pages
   skip_cleanup: true
