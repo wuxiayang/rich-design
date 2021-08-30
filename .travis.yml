@@ -4,10 +4,10 @@ node_js:
 cache: 
   directories:
   - node_modules
-before_install:
-  - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
-# env: 
-#   - CI=true
+# before_install:
+#   - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
+env: 
+  - CI=true
 # script: 
 #   - npm run build-storybook:test-travis
 deploy: 
@@ -15,9 +15,9 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   local_dir: storybook-static
-  target-branch: test-travis
+  # target-branch: test-travis
   on: 
-    branch: test-travis
+    branch: master
 
 
 
