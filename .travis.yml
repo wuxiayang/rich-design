@@ -1,25 +1,17 @@
 language: node_js
-node_js: 
+node_js:
   - "stable"
-cache: 
+cache:
   directories:
   - node_modules
-# before_install:
-#   - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
-env: 
+env:
   - CI=true
-# script: 
-#   - npm run build-storybook:test-travis
-deploy: 
+script:
+  - npm run build-storybook
+deploy:
   provider: pages
   skip_cleanup: true
-  github_token: $GITHUB_TOKEN
+  github_token: $github_token
   local_dir: storybook-static
-  # target-branch: test-travis
-  on: 
+  on:
     branch: master
-
-
-
-
-  # github_token  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
