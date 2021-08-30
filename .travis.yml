@@ -8,8 +8,8 @@ before_install:
   - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
 # env: 
 #   - CI=true
-script: 
-  - npm run build-storybook:test-travis
+# script: 
+#   - npm run build-storybook:test-travis
 deploy: 
   provider: pages
   skip_cleanup: true
