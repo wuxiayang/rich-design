@@ -1,5 +1,4 @@
-# language: node_js
-language: generic
+language: node_js
 node_js:
   - "stable"
 cache:
@@ -15,4 +14,4 @@ deploy:
   github_token: $github_token  #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
   local_dir: storybook-static
   on:
-    branch: main
+    branch: main 
